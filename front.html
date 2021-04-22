@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src = ></script>
+</head>
+<body>
+    <ul>
+        <li data-id="1" data-user-job="프로그래머">김영진</li>
+        <li data-id="2" data-user-job="디자이너">박영진</li>
+        <li data-id="3" data-user-job="프로그래머">최영진</li>
+        <li data-id="4" data-user-job="대표이사">이영진</li>
+    </ul>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
+    <script>
+        //여기 코딩가능
+        // axios.get("https://www.zerocho.com/api/get") //Promise 객체
+        // .then(
+        //     (result) => {  //프로미스의 then 콜백
+        //         console.log(result);  //GET 방식 요청한 응답결과
+        //         console.log(result.data);  //응답결과중 전송받을 데이터, JSON
+        //     }
+        // )
+        // .catch(
+        //     (err) => {
+        //         console.error(err);
+        //     }
+        // );
+            // (
+            //     async () => {  //async 화살표 함수 정의
+            //                    //익명함수, 이름이 없는 함수
+            //         try {
+            //             const result = await axios.get("https://www.zerocho.com/api/get");
+            //             console.log(result); 
+            //             alert(result.status == 200?'성공했어요':'실패');
+            //             console.log(result.data); 
+            //         } catch (error) {
+            //             console.error(err);
+            //         }
+            //     }
+            // )();  //익명함수 호출
+            // (
+            //     async() => {
+            //         try {
+            //             const formData = new FormData();
+            //             formData.append('name', '김영진');
+            //             formData.append('birth', )
+            //             const result = await axios.post("https://www.zerocho.com/api/post/json");
+            //             {  //JSON객체로 서버의 요청시 전달할 입력값
+            //                 formData
+            //             }
+            //             console.log(result); 
+            //             alert(result.status == 200?'성공했어요':'실패');
+            //             console.log(result.data); 
+            //         } catch (error) {
+            //             console.error(err);
+            //         }
+            //     }
+            // )();
+
+            // const formData = new FormData();
+            // formData.append('name','김영진');  //첫번째 - 키, 두번째 - 값
+            // formData.append('item','orange'); 
+            // formData.append('item','melon'); 
+            // formData.has('item'); 
+            // formData.has('money');
+            // formData.get('item');
+            // formData.getAll('item');
+            // formData.append('test',['하이', '영진']);
+            // formData.get('test');
+            // formData.set('item', 'cocoa');
+            // formData.getAll('item');
+
+            // (
+            //     async() => {
+            //         try {
+            //             const result = await axios.post("https://www.zerocho.com/api/post/json");
+            //             const axios.get(`https://www.zerocho.com/api/search/${encodeURIComponent('노드')}`);
+            //             {  //JSON객체로 서버의 요청시 전달할 입력값
+            //                 formData
+            //             }
+            //             console.log(result); 
+            //             alert(result.status == 200?'성공했어요':'실패');
+            //             console.log(result);
+            //             window.alert(result.request.status) 
+            //         } catch (error) {
+            //             console.error(err);
+            //         }
+            //     }
+            // )();
+        console.log(document.querySelectorAll('li').dataset);
+        
+    </script>
+
+</body>
+</html>

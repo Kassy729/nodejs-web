@@ -1,0 +1,507 @@
+2. 알아두어야할 자바스크립트 : ES2015 + 문법
+ES - ECMAScript
+ES2015 --- ES6
+
+2.1 ES2015 +
+2015년 발표 자바스크립트  표준 문법안 : 상당한 변화
+2016년 승인 후 ES6
+
+babel : 구형 브라우저에서 ES6 돌아가게 해주는 도구
+
+2.1.1 const, let
+* var : 변수 선언(이전버전)
+---> const, let 대체
+
+* var의 단점 : Hoisting 호이스팅
+  ---> 변수의 선언이 아무곳에서 이뤄져서 소스코드 이해도가 떨어짐
+       가독성이 안좋음
+  함수 스코프 
+
+* const, let : 블록 스코프
+??{ 
+    //block
+}
+
+var x; --> 선언하지 않아도 선언한거 처럼 함 (Hoisting) 소스코드가 길면 찾아보기가 힘들다. 
+if(true){
+    var x = 3;
+    console.log(x);
+}
+VM352:3 3
+
+if(true){
+    const y = 3; // block scope
+}console.log(y);
+
+* const, let 차이
+- const : 상수 선언, 초기화 1회만 가능, 값 수정 불가
+          반드시 초기화 1회 해야 한다. // const c; <---- 에러
+
+const a = 0;
+a = 1;
+
+- let : 변수 선언, 초기화 및 값 수정이 여러번 가능
+let b = 0;
+b = 1;
+
+const getA = function(a){
+    let bbbb;  // let은 함수 안에서 자주 변수로 사용
+};
+getA 라는 변수에다가 함수를 선언
+getA(10); // 호출해서 사용 가능
+
+
+2.1.2 템플릿 문자열
+* 문자열 표현
+- ''
+- " "
+- `` : 백틱, 템플릿 문자열로 문자열 내부에 변수 사용 가능
+       변수 '${}'
+
+var n1 = 1;
+var n2 = 2;
+var res = 3;
+var string1 = n1 + '더하기' + n2 + '는 \'' + res + '\'';
+console.log(string1);
+\' 이스케이프 문자열 // '를 표시하기 위해 사용
+
+var string2 = `${n1} 더하기 ${n2} 는 '${res}'`;
+console.log(string2);
+
+2.1.3 객체 리터럴
+* literal : 구체적인 값
+  1, 123, "황현종"
+* object literal : 생성된 객체, 실행 도중에 객체의 속성, 메소드를 동적으로 추가 가능
+
+
+- 이전버전 : 지금도 사용가능
+var sayNode = function(){
+    console.log('Node');
+};
+
+var es = 'ES';  //문자 리터럴
+var oldObject = {  //객체 리터럴 사용 초기화
+    sayJS: function(){
+        console.log('JS');
+    },
+    sayNode:sayNode,
+};  //oldObject.sayNode(), oldObject.sayJS()
+
+oldObject[es+6] = 'Fantastic';
+oldObject.sayNode();
+oldObject.sayJS();
+console.log(oldObject.ES6);
+
+oldObject.ES6 = 'test';
+
+
+- 최신버전 : 
+// const sayNode = function(){...}; 원래라면 필요 
+
+const newObject = {
+    sayJS(){  //function 생략가능
+        console.log('JS');
+    },
+    sayNode,   // sayNode:sayNode  - key:value  키와 밸류값이 같으면 생략해서 한번만 입력
+    [es+7]:'환타스틱'
+};
+newObject.sayNode();
+newObject.sayJS();
+console.log(newObject.ES7);
+
+- {name : name, age : age}  ===> {name, age}  //생략가능
+
+2.1.4 화살표 함수 arrow function
+- 기존 : function를 이용해서 함수 정의(선언)
+- 신규 : '=>' 기호 사용 : 화살표 함수
+
+- old
+function add1(x,y){
+    return x+y;
+}
+
+-new
+const add2 = (x,y) => { return x+y; };  //가장 일반적인 방법 
+const add3 = (x,y) => x+y;  //생략할수 있는 이유는 함수내의 명령이 한개이고, 리턴문 생략이 가능
+const add4 = (x,y) => (x+y);  //더 바람직하다
+
+function not1(x){ return !x;}
+--->
+const not2 = x => !x;
+const not3 = (x) => {return !x;}
+
+* old 와 new의 차이점 : this의 바인드 방식 차이 (bind)
+- old의 객체내부의 함수에서 this를 바로 접근 못함
+  that처럼 다른 변수로 할당받아서 사용
+  //const로는 안됨
+    var는 함수스코프, const는 블록스코프
+
+- new에서의 this는 자신의 객체  P.71쪽 소스코드
+
+-forEach : 나열가능한객체(iterable)에 들어 있는 원소 각각에 대해 매개변수인 콜백함수를 호출함
+//화살표 함수를 사용하면 this를 사용해 더 직관적으로 표현 가능
+
+2.1.5 구조분해할당
+- old
+객체, 배열로부터 속성 또는 요소 접근
+객체명.속성명 ---> 객체명[속성명]
+배열명[인덱스]
+
+const a = oldObject;
+= = (대입 또는 할당 연산자)의 왼쪽에는 리터럴, 수식 사용 불가
+
+* 객체의 속성명(키-콜론왼쪽)과 할당받을 변수를 같게 
+
+const{getCandy, status:{count}} = candyMachine;  //candyMachine을 분해해서 getCandy에 할당, 필요한 count도 가져와서 사용
+// 필요한 구조만 나타내서 사용
+
+var candyMachine = {
+    status:{
+        name : 'node',
+        count : 5,
+    },
+    getCandy: function(){
+        this.status.count--;
+        return this.status.count;
+    },
+};
+var getCandy = candyMachine.getCandy;
+var count = candyMachine.status.count;
+console.log(count);
+
+1.const, let, 스코프
+2.템플릿문자열은 `을 이용해 간결하게 표현
+3.객체 리터럴 선언하는 방법 (키와 밸류값이 같으면 생략가능)
+4.화살표 함수 (코딩량을 줄여줌, 간단한 코드에 사용)
+5.화살표 함수를 사용했을때 this는 현재를 표현
+6.구조분해할당을 사용하면 ..... 단 속성명과 변수명을 같게해야함
+
+---------------------------------------------------------
+
+2.1.6 Class : 클래스 문법은 ES6에서 새로 도입
+- 자바스크립트를 학술적으로는 객체지향 언어라고 하지 않음
+- 객체중심언어, 프로토타입기반언어 (Prototype based Language)
+  Classless Language, Instance based Language
+- 프로토타입: 원형 - 객체를 사용하는데, 객체의 원형만 가지고 있고
+  실행 도중에 속성, 메서드를 추가 또는 삭제가 가능한 형태
+- 상속, 다형성 구현이 가능하나 매우 어려움
+
+* 프로토타입 상속 예제 코드
+var Human = function(type){ // function-Function 객체
+    this.type = type || 'human';
+}; // this를 사용함으로 Human 클래스명이자 생성자 역할을 담당
+
+Human.isHuman = function(human){
+    return human instanceof Human; // 클래스메소드 구현
+}; // h.isHuman(man);
+
+Human.prototype.breathe = function(){
+    alert('h-a-a-a-m');
+}; // 일반메서드 구현
+// 상기까지 Human 객체 정의 한것
+
+var Zero = function(type, firstName, lastName){
+    Human.apply(this, arguments); // 자바의 super()역할, Human이랑 연결
+    this.firstName = firstName;
+    this.lastName = lastName;
+}; // Zero 객체가 Human 객체를 상속한 것으로 연결
+
+Zero.prototype = Object.create(Human.prototype);
+//Human 객체의 원형 복제
+Zero.prototype.constructor = Zero; // 비로소 상속 완성
+
+Zero.prototype.sayName = function(){
+    //alert(this.firstName + '' + this.lastName);
+    alert(`${this.firstName} : ${this.lastName}`); // 응용가능
+}; // 자식객체의 메소드 구현
+
+var oldZero = new Zero('human','YeungJin', 'Hwnag');
+Human.isHuman(oldZero);
+//거의 사용하지 않음
+
+* 클래스 문법 도입 : 새로운 코드
+class Human{
+    constructor(type = 'Human'){ 
+        // 생성자, 매개변수 1개, human - 디폴트값 설정
+        // let hu = new Human();, let hu2 = new Human('woman');
+        this.type = type; // 속성을 정의 this를 이용
+    }
+
+
+    static isHuman(human){  // 클래스 메소드 정의
+        return human instanceof Human;
+    }
+
+    breathe(){ // 일반 메소드 정의
+        alert('h-a-a-a-m');
+        }
+}
+
+class Zero extends Human{ // extends : 상속관계 정의
+    constructor(type, firstName, lastName){
+        super(type);
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    sayName(){  // 하품 실행후에 실행
+        super.breathe();
+        alert(`${this.firstName} ${this.lastName}`);
+    }
+}
+
+const newZero = new Zero('human', 'Zero', 'Cho');
+Human.isHuman(newZero);  
+
+---------------------------------------------------------
+
+2.1.7 프로미스 : Promise
+- 프로미스 이전의 비동기 : 콜백처리
+ES6부터는 프로미스 사용 권장
+- 반드시 알아가야 할 객체
+- 비동기 처리에서 성공, 실패의 경우를 나눠서 구현
+- 프로미스 사용 이유 또는 문법 개발 배경
+  콜백지옥현상 극복을 위해
+- 프로미스 사용 규칠
+1) 프로미스 객체 생성
+   객체 생성시의 매개변수 : resolve(), reject()를 매개변수로 가진 
+   콜백함수(화살표함수) : IO등 비동기 처리할 코드작성
+
+2) 생성된 객체에 then(), catch(), finally() 메소드를 호출
+   세개의 메소드의 매개변수 : 콜백함수로 구현
+   resolve()호출 ---> then() 실행
+   reject() 호출 ---> catch() 실행
+   호출하건 호출안하건 ---> finally() 실행
+
+
+* 추가 코드
+const condition = true;
+const promise = new Promise((resolve, reject) => {
+    if(condition){
+        resolve('성공');
+    } else{
+        reject('실패');
+    }
+});
+
+promise
+  .then((message) => {
+      return new Promise((resolve, reject) => {
+      resolve(message);
+      });
+  })
+  .then((message2) => {
+      console.log(message2 + ' 2번이야');
+      return new Promise((resolve, reject) => {
+          resolve(message2);
+      });
+  })
+  .then((message3) => {
+      console.log(message3 + ' 3번이야');
+  })
+
+  .catch((error) => {
+      console.error(error);
+  });
+
+  * 콜백을 프로미스로 변경
+  - 콜백
+  - 프로미스
+
+function findAndSaveUser(Users){
+    Users.findOne({}, (err,user) => {
+        if(err){
+            return console.error(err);
+        }
+        user.name = 'zero';
+        user.save((err) => {  
+            if(err){
+                return console.error(err);
+            }
+            Users.findOne({gender: 'm'}, (err, user) => {
+                
+            });
+        });
+    });
+}
+
+- 프로미스
+function findAndSaveUser(Users){
+    Users.findOne({})  //findOne() - 프로미스객체 리턴
+         .then((user => {
+            user.name = 'zero';
+            return user.save();  //save() - 프로미스객체 리턴
+         })
+         .then((user) => {
+             return Users.findOne({gender:'m'});
+         })
+         .then((user) => {
+             //...생략
+         })
+         .catch(err => { console.log(err);});
+}
+
+
+* 여러개의 프로미스 한꺼번에 실행하기
+: Promise.all()
+
+const promise1 = Promise.resolve('성공1');
+const promise2 = Promise.resolve('성공2');
+// Promise.resolve(), Promise.reject()
+// 즉시 resolve하는 프로미스객체 생성
+// 즉시 reject하는 프로미스객체 생성
+//promise1.then().catch().finally();
+Promise.all([promise1, promise2])
+    .then((res) => {  //두개 다 resolve해야 실행이됨
+        console.log(res);
+    })
+    .catch((err) => {  //둘중 하나라도 reject되면 catch가 실행이됨
+        console.log(err);
+    });
+
+2.1.8 async/await: ES2017부터, Node 7.6부터 지원
+- ES6+/ES2015+
+- 프로미스가 콜백헬을 극복하고 있지만, 코드의 장황상은 해소하지 못함
+
+- 프로미스
+function findAndSaveUser(Users){
+    Users.findOne({})  //findOne() - 프로미스객체 리턴
+         .then((user => {
+            user.name = 'zero';
+            return user.save();  //save() - 프로미스객체 리턴
+         })
+         .then((user) => {
+             return Users.findOne({gender:'m'});
+         })
+         .then((user) => {
+             //...생략
+         })
+         .catch(err => { console.log(err);});
+}
+1) function을 async function으로 변경
+function findAndSaveUser(Users){
+}
+=>
+async function findAndSaveUser(Users){
+}
+
+2)프로미스객체 반환 함수들에 호출
+변수 = await 함수명();
+
+async function findAndSaveUser(Users){
+    try{
+        let user = await Users.findOne({});
+        user.name = 'zero';
+        user = await user.save();
+        user = await User.findOne({gender: 'm'});
+        //... 생략
+    }catch(err){
+        console.log(err);
+    }
+}
+
+===> arrow function 처리 p.80
+* async 함수는 항상 Promise 객체를 반환
+async function findAndSaveUser(Users){
+    //...
+    return new Promise({...});
+}
+
+findAndSaveUser().then(() => {
+
+});
+
+async function other(){
+    const res = await findAndSaveUser();
+}
+
+2.2 프런트엔드 자바스크립트 Front-End JS
+: html내의 script 태그안에 작성되어 실행되는 JS코드
+DOM, BOM, AJAX 
+Document Object Model : html소스코드를 객체로 만들어
+                        document객체로 관리
+        - element : html, head, body 등등, 노드(node)
+        - attribute : 시작태그에 있는 속성 
+            a태그의 href
+        - getElementById
+        - getElementByTagName
+        - getElementByClassName
+        - querySelector, querySelectorAll
+
+Browser Object Model : window객체, document객체, location객체
+history객체, ....
+location.href = '주소'
+redirection 기능 구현시 사용
+
+2.2.1 AJAX
+- Asynchronous JavaScript and XML
+  비동기 자바스크립트와 XML
+  웹페이지 전환없이 새로운 데이터를 불러와서 화면에 변화를 부분적으로 하게 하는 기능
+- Web 2.0 시대 도래
+- MashUp, OpenAPI기능
+
+- AJAX 요청 - 응답 라이브러리
+  XMLHttpRequest 객체 : 표준
+  fetch()
+  $.AJAX() ===> JQuery
+  axios(): 프로미스, async/await 잘 지원
+
+  ajax 마토메
+
+2.2
+2.2.1 AJAX
+axios
+
+front.html 사용예제
+- axios.get() : GET 요청 대응하는 aJax기능 호출 메소드
+  반환값 : 프로미스객체
+- axios.post(): POST요청 처리
+
+-p.83에서 예제코드는 실행시 에러 발생
+ 이유? CORS에러
+
+
+2.2.2 FormData
+form태그와 관련, 동적으로 관리가 가능
+
+
+2.2.3 encodeURIComponent(), decodeURIComponent()
+- url 주소에서 한글처리하기 위한 메소드 
+- BOM 중의 window객체의 메소드
+window객체는 BOM객체의 최상위 객체
+alert(), confirm(), open(), close()
+<== window.alert(), window.confirm(), window.open(),window.close()
+
+2.2.4 데이터 속성과 dataset
+* HTML5에서 태그에 사용자 정의 속성을 사용할수 있음
+  data -+ 사용자정의 속성명
+  data - id
+  data - user - job
+  -->
+  dataset으로 사용할 때
+  키값은 data-를 때어낸 단어를 사용
+  data-다음에 합성어(user-job)===>userJob
+                  단어1 - 단어2 ===> 단어1 + 단어2의 첫글자를 대문자로
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

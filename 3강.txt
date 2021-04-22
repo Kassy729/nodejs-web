@@ -1,0 +1,399 @@
+3. 노드 기능 알아보기
+외우기 보다 익숙해지기
+시간 많이 없기에 외우는 것도 
+잊어버린 경우에 다시 찾아보기
+
+3.1 REPL 사용하기
+Read Evaluate Print Loop 약자
+읽고 평가하고 출력하는 루프
+
+java.exe 
+javac.exe .java ---> .class  바뀐다
+
+nodejs에도 소스코드를 읽고 평가하고 그 결과를 출력해주는 명령어 : node.exe
+스크립트 언어에서 주로 실행을 위해 사용됨
+---> 스크립트 언어는 미리 컴파일 하지 않고 한줄 한줄 읽고 평가하고 그 결과를 출력
+
+JS의 실행환경
+1) 브라우저의 콘솔탭
+2) Node의 콘솔 : REPL
+    node.exe
+실행방법
+1)Ctrl + ` 입력 > node 입력 > 엔터
+2)실행하려는 폴더에서 오른쪽마우스버튼 > PowerShell실행 > node 입력 > 엔터
+
+종료방법
+1) Ctrl + C 2번입력
+2) .exit > 엔터
+
+*테스트 : p.91
+
+* 소스가 일반적으로 길다. ---> 파일로 저장후 실행시키는 것이 일반적
+
+3.2 JS파일 실행하기
+1) HelloWorld.js 파일 생성
+2) node 파일명
+   node helloWorld[.js]  //[]생략가능, 확장자는 생략 가능
+
+3.3 모듈로 만들기
+모듈(module): 특정 기능을 하는 함수나 변수들의 집합
+
+실습: 3파일 작성
+모듈로 정의해 둘 파일
+모듈을 사용할 파일
+    var.js
+모듈를 사용할 파일
+    func.js
+    index.js
+
+1) 3파일을 같은 폴더에서 작성한다
+2) var.js 파일 작성
+3) func.js 파일 작성
+4) index.js 파일 작성
+
+모듈로 만들기
+1) 소스코드에서 
+module.exports = 변수, 객체, 함수
+
+모듈 사용하기 
+- 다른 파일의 모듈 불러오기 : require(모듈경로)
+
+3.4 노드 내장 객체 알아보기
+* 내장 객체 : 이미 노드가 정의해 둔 모듈
+* require없이 사용 가능한 객체
+
+사용해본 내장객체
+console객체
+
+
+window객체 : BOM(브라우저오브젝트모델)객체, 브라우저에서만
+document객체 : DOM객체, 브라우저에서만
+
+
+3.4.1 global
+전역객체 ---> 파일간의 데이터 공유 ---> 남용하지 말자!!
+생략가능
+
+3.4.2 console : [global.]console
+
+- console.log()
+- console.error(), console.trace()
+- console.time(레이블), console.timeEnd(레이블)
+
+3.4.4 타이머
+- setTimeout(콜백함수, 밀리초)  //밀리초후에 콜백함수 1회 실행
+- setInterval(콜백함수, 밀리초)  //밀리초마다 콜백함수 실행
+- setImmediate(콜백함수)  
+set + ~~~함수의 반환값 : 타이머아이디
+
+-->
+타이머 취소: clear + ~~~함수(아이디)
+clearTimeout(아이디)
+clearInterval(아이디)
+clearImmediate(아이디)
+
+* setImmediate(콜백) vs .setTimeout(콜백,0)
+--> setTimeout(콜백,0)를 사용하지 않는 것을 권장
+
+3.4.4 __filename, __dirname
+
+__filename : 실행할 때 현재 실행중인 파일명
+__dirname : 실행할 때 현재 실행중인 폴더명(디렉토리명)
+경로를 포함하여 표시
+
+* 경로 구분자
+윈도우 : \
+맥, 리눅스 : /
+
+3.4.5 module, exports, require
+* JS에서 함수는 Function형 객체
+* 모듈 작성 : module.exports  (global.module.exports)
+* 모듈 작성 추가 방법 : exports (global.exports)
+
+exports ==> module.exports ==> {} //실제 모듈
+
+* module.exports으로 모듈 작성 권장(김종률교수입장)
+
+* 노드에서 this 의미
+- 최상위 스코프(전역스코프)의 this: module.exports, exports
+- 함수내의 this : global객체, JS함수 ---> Function형 객체
+
+* require() : 함수 ---> Function형 객체
+- require.cache
+- require.main
+
+* require() 주의 상황
+- 상호 의존관계인 경우 주의가 필요
+  (dependency 문제 발생) : circular dependency
+- ctrl + f2 : 같은 내용 한꺼번에 바꾸기 (refactoring)
+
+3.4.6 process
+node.exe가 메인메모리에 로딩되어 실행되고 있는 것을 프로세스
+
+- process.arch : 프로세서 아키텍쳐 정보
+                 arm, ia32
+
+- process.version : node의 버전
+- process.platform : os 플랫폼 정보
+                     linux, darwin, freebsd
+- process.pid : 프로세스의 index
+- process.uptime() : 프로세스 시작후 경과시간
+- process.cwd() : 프로세스 실행되는 경로
+    cwd : current working directory
+- process.cpuUsage() : 프로세스의 cpu사용량
+
+3.4.6.1 process.env
+env: environment(환경)
+process.env에 환경정보를 저장해 두고 그 정보를 실행시 사용
+주로 공개되지 말아야 할 정보를 담아둔다.
+(디비의 아이디, 패스워드)
+
+
+3.4.6.2 process.nextTick(콜백)
+* 즉시 실행 방법
+1) setTimeout(콜백, 0)
+2) setImmediate(콜백)
+3) process.nextTick(콜백)
+4) Promise의 resolve()의 콜백
+3,4) 제일 먼저 실행됨 : microtask
+* 주의 사항 : 마이크로테스크내부에서
+   재귀호출 금지
+
+3.4.6.3 process.exit(코드)
+: 프로세스를 종료 시킴
+0 정상 종료
+1이상 비정상 종료
+
+
+let i = 1;
+setInterval(() => {
+    if(i === 5){
+        console.log('종료!);
+        process.exit();
+    }
+    console.log(i);
+    i += 1;
+}, 1000);
+
+3.5 노드 내장 모듈 사용하기
+https://nodejs.org/dist/latest-v14.x/docs/api/
+참고
+
+3.5.1 OS
+- operating system
+  운영 체제
+- 운영 체제의 정보를 다루는 내장 모듈
+
+3.5.2 path 2.5별점
+폴더와 파일의 경로를 위한 모듈
+--> OS별로 경로 구분자가 다름
+
+* 경로 구분자 (path seperator)
+- 윈도 : \ (back slash)
+  C:\Users\ZeroCho
+- POSIX : /  (맥, Linux 등 포함 유닉스 제외)
+  C:/Users/ZeroCho
+  노드에서 별다른 이야기가 없으면 
+  / 로 
+
+delimiter ;
+
+3.5.3 url 별점 4점
+인터넷 주고 관련 모듈
+
+인터넷 주소를 처리하는 방식
+1) WHATWG(웹의 표준 제정하는 단체)방식
+2) 노드에서 전통적으로 사용해 온 방식
+
+http  :// [user   :pass  @]sub.host.com   :8080     /p/a/t/h ?  query=string#hash  #hash
+프로토콜    사용자명   비번      서버 도메인 주소   포트번호    경로         요청쿼리             해쉬코드
+
+- 요청쿼리
+키=값
+키1 = 값1 & 키2 = 값2 & 키3 = 값3...
+
+해시코드 : a 태그의 레이블
+
+
+ftp://아이디:패스워드@주소
+
+
+* searchParams 이용법
+p.121 ~ 122
+
+3.5.4 querystring
+- 기존 노드 방식 사용시 사용
+
+* .parse() : 문자열 --> 객체
+  .format() : 객체 --> 문자열
+  .stringify() : 객체 --> 문자열
+JSON.parse()
+JSON.stringify()
+
+3.5.5 crypto
+암호화를 도와주는 모듈
+주요정보는(비번)는 암호화할 필요
+
+3.5.5.1 단방향 암호화
+- 비번에 대해 주로 사용
+- 복호화가 불가능한 암호화 방식
+- 복호화? 암호화와 반대기능
+  암호화: 평문을 암호처리한것
+  복호화: 암호문을 평문으로 변경
+
+* 해시 기법: 어떤 문자열을 고정된 길이의 
+           다른 문자열로 바꾸는 방식
+- 다양한 알고리즘 존재
+sha512, sha256
+sha3-512, sha3-256
+512
+256
+384  ---> 결과의 길이(bit)
+
+===> 문제
+해결하기 위해 126페이지 방식
+salt: 소금
+
+salt+비번처리: pbkdf2
+
+3.5.5.2 양방향 암호화
+- 양방향 대칭형 암호화
+--> 암호문 <-> 복호화문
+
+3.5.6 util
+util.deprecate(): 함수가 deprecated처리됨을 알림
+util.promisify(): 비Promise되어 있는 것을 Promise로 만들어줌
+
+
+3.5.7 worker_threads
+멀티스레드 프로그래밍
+isMainThread: 메인스레드인가:true - 메인스레드  
+                        false - worker스레드
+
+
+3.6 FS접근하기
+File system ---> fs모듈
+
+* 간단 읽기 예제 : readFile
+: 비동기 방식 
+* 간단 쓰기 예제 : writeFile
+* Promise버전으로 사용하기
+
+3.6.1 동기메서드와 비동기메서드
+* 비동기와 동기 구별법
+함수명 : 비동기
+함수명 + Sync : 동기
+
+3.6.2 Buffer & Stream
+Buffer : 완충
+Stream : 시냇물, 시냇물의 흐름
+
+* 파일처리 방식 : 2가지
+- 버퍼 이용 : 디폴트방식 (따로 지정하지 않으면)
+- 스트림 이용
+
+* 버퍼링, 스트리밍
+  영상을 로딩할 때, 버퍼링 : 영상을 재생할 수 있도록 데이터를 모음
+  영상을 실시간으로 전송할 때, 스트리밍 : 데이터를 조금씩 전송
+  스트리밍할 때 버퍼링사용
+
+* 노드에서 파일 처리할 때 동작
+- 파일을 읽을때 메모리에 파일크기만큼 공간을 마련
+- 파일데이터를 메모리에 저장 --> 파일처리(읽기, 수정, 삭제, 쓰기)
+
+* 노드에서 버퍼를 사용하기 위해 Buffer객체를 사용
+  문제점 : 대용량의 파일 처리
+         메모리 확보 문제
+
+* 스트림 사용하려면 Stream 객체사용(ReadStream, WriteStream)
+- 버퍼의 메모리 확보 문제를 
+  어느정도 해결하기 위해 
+- 대용량의 파일을 일정한 크기로 잘라서 처리한다.
+- 일정한 크기를 자른것 : chunk
+- createReadStream
+- createWriteStream
+
+
+3.6.4 스레드풀 알아보기
+thread pool
+내부적으로 스레드풀 이용하는 모듈 : fs, crypto, zlib, dns.lookup
+
+SET UV_THREADPOOL_SIZE=1
+===> process.env.UV_THREADPOOL_SIZE 설정
+
+3.7 이벤트 이해하기
+* on(이벤트명, 콜백) : addListener(이벤트명, 콜백)  //같은 기능
+  once(이벤트명, 콜백) : 1회성 
+* emit(이벤트명) : 이벤트 발생시키기
+
+
+* events 모듈 사용
+
+
+3.8 예외처리
+* try{}catch{
+  throw new Error('에러원인설명')
+}
+* throw
+* console.error();
+
+3.8.1
+
+파일처리할때 동기식 비동기 버퍼와 스트리밍 
+이벤트 on과 am
+예외처리
+
+
+
+
+
+
+
+
+4. http 모듈로 서버만들기
+4.1 요청과 응답 이해하기
+* Server vs Client
+  서버(웹서버) vs 클라이언트(웹브라우저)
+
+* Request vs Response
+- Client에서 Server로 Request보냄
+- Server는 Request정보를 확인후 처리
+- Server는 처리결과를 Client에 Response함
+--> 이벤트처리와 유사
+요청이벤트가 서버로 오면 미리 정해둔 이벤트리스너(콜백)
+를 실행(처리)하고 그 결과를 클라이언트로 응답
+
+* HTTP : Request와 Response를 위해
+  사용하는 통신규약(프로토콜)
+
+- HyperTest Transfer Protocol
+- HTML
+- HTTP의 메시지를 주고 받음
+- HTTP Message 구성
+- HTTP Headers
+  HTTP Body
+- HTTP Message 종류 : 
+  HTTP 요청 메시지
+    Header + Body(사용자입력값)
+  HTTP 응답 메시지
+    Header + Body(html문서, js, jpg...리소스)
+- localhost : 현재 컴퓨터의 내부도메인주소
+  127.0.0.1 : 현재 컴퓨터의 내부IP주소
+- 포트번호
+0 ~ 1024 포트번호는 시스템 예약 포트번호
+80 : 웹서버포트
+21 : FTP서버포트
+23 : TELNET서버포트
+8080 -> 8081 -> 8082
+
+* html 파일을 읽어서 전송하기 : fs모듈 사용
+
+
+* 노드에서 HTTP서버를 만들기 위해 http모듈을 사용함
+
+
+4.2 REST와 라우팅 사용하기
+
+4.3 쿠키와 세션 이해하기
+
+
