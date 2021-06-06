@@ -1,0 +1,146 @@
+1) db설치
+
+2) db서버 실행
+db설치된 폴더의 bin폴더에서
+mysqld 명령어 입력
+
+3) db 클라이언트 실행
+mysql -u root -p [-h localhost]
+3-1) 클라이언트 중지
+mysql> exit
+
+
+4) 서버를 중지
+mysqladmin -u root -p shutdown
+
+* DB 생성
+ mysql> create SCHEMA `nodejs` DEFAULT CHARACTER SET utf8;
+
+* DB 사용 선언
+ mysql> use nodejs;
+
+
+* 테이블 생성
+
+* 테이블 삭제
+DROP TABLE 테이블명;
+DROP TABLE users;
+
+7.5. CRUD 작업하기
+CREATE(생성): CREATE, INSERT
+READ(읽기): select
+UPDATE(수정): UPDATE
+DELETE(삭제): delete
+
+7.5.1 생성
+
+
+INSERT INTO 테이블명(필드명)
+
+7.5.2 조회, 읽기
+* SELECT 조회할필드명 리스트 FROM 테이블명
+  WHERE 조건문;
+
+SELECT * FROM nodejs.users;
+* : 모든필드 조회
+
+SELECT * FROM nodejs.comments;
+
+SELECT id, name, age FROM nodejs.users WHERE married = 1 AND age > 30;
+
+SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1 OFFSET 1
+* LIMIT 행 하나만 출력
+
+* JOIN 조인 : ORM
+
+7.5.3 수정
+* UPDATE 테이블명 SET 필드명 = '바꿀내용' WHERE 조건문장;
+UPDATE nodejs.users SET comment = '자기소개가 바뀔거임' WHERE id = 1;
+
+7.5.4 삭제
+* DELETE FROM 테이블명 WHERE 조건문장;
+
+DELETE FROM nodejs.users WHERE id = 2;
+
+7.6 시퀄라이즈 사용하기
+ORM (Object Relational Mapping):DB 콘텐츠를 객체로 사용할 수
+있도록 해주는 도구
+==> Sequelize is a promise-based Node.js ORM
+                 for Postgres, MySQL, MariaDB,
+                     SQLite and Microsoft SQL Server.
+JS 객체와 DB의 릴레이션을 매핑해주는 도구
+JS 구문을 알아서 DB SQL로 바꿔서 준다.
+
+* Sequelize 테스트
+1) npm init ==> package.json파일 생성(p.315)
+2) 패키지 설치(express 등)
+npm i express morgan nunjucks sequelize sequelize-cli mysql2
+npm i -D nodemon 
+
+3) sequelize 설치
+npx sequelize init
+
+참고, express-generator
+
+4) express관련 폴더 생성
+views, public, routes
+
+5) models/index.js 수정
+==>  sequelize설정
+
+6) app.js 수정(p.317 ~ 318)
+
+7) config.json파일 수정
+(p.318)
+
+8) 서버실행 : DB연결 확인 
+npm start
+브라우저 실행
+http://localhost:3001/
+http://127.0.0.1:3001/
+
+
+7.6.1 MySQL연결
+
+npm i -g sequelize-cli
+
+7.6.2 모델 정의하기
+* MySQL의 테이블 : 모델 -- 매핑, Sequelize패키지가 해줌
+- users : User
+- comments : Comment
+테이블 : 소문자로 시작, 복수형
+모델: 대문자로 시작, 단수형
+1) 모델작성
+models/user.js
+models/comment
+
+2) 모델 사용 등록
+models/index.js 수정
+
+7.6.3 관계정의하기
+* 관계
+- 1:1 (일대일)
+  먼저 1인 관계테이블에서 hasOne()
+  1인 다른 관계테이블에서 belongTo()
+  이용 관계 정의
+- 1:N (일대다)
+  1인 관계테이블에서 hasMany()
+  N인 관계테이블에서 belongTo()
+  이용 관계 정의
+- N:M (다대다)
+  N인 관계테이블에서 belongsToMany(M모델,{through:'중간테이블'})
+  M인 관계테이블에서 belongsToMany(N모델,{through:'중간테이블'})
+  중간테이블 : 시퀄라이즈에서 자동으로 생성해줌
+  --> N인 테이블의 id와 M인 테이블의 id를 필드로 가짐
+  중간테이블에 대한 모델의 사용
+    db.sequelize.models.중간테이블명
+    
+
+* 사용자테이블: 게시글테이블
+1:N 
+
+
+
+
+
+

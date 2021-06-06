@@ -1,0 +1,119 @@
+4. http 모듈로 서버만들기
+4.1 요청과 응답 이해하기
+* Server vs Client
+  서버(웹서버) vs 클라이언트(웹브라우저)
+
+* Request vs Response
+- Client에서 Server로 Request보냄
+- Server는 Request정보를 확인후 처리
+- Server는 처리결과를 Client에 Response함
+--> 이벤트처리와 유사
+요청이벤트가 서버로 오면 미리 정해둔 이벤트리스너(콜백)
+를 실행(처리)하고 그 결과를 클라이언트로 응답
+
+* HTTP : Request와 Response를 위해
+  사용하는 통신규약(프로토콜)
+
+- HyperTest Transfer Protocol
+- HTML
+- HTTP의 메시지를 주고 받음
+- HTTP Message 구성
+- HTTP Headers
+  HTTP Body
+- HTTP Message 종류 : 
+  HTTP 요청 메시지
+    Header + Body(사용자입력값)
+  HTTP 응답 메시지
+    Header + Body(html문서, js, jpg...리소스)
+- localhost : 현재 컴퓨터의 내부도메인주소
+  127.0.0.1 : 현재 컴퓨터의 내부IP주소
+- 포트번호
+0 ~ 1024 포트번호는 시스템 예약 포트번호
+80 : 웹서버포트
+21 : FTP서버포트
+23 : TELNET서버포트
+8080 -> 8081 -> 8082
+
+* html 파일을 읽어서 전송하기 : fs모듈 사용
+
+* HTTP status code
+2XX : 성공, 200-성공, 201(작성됨)
+3XX : 리다이렉션, 301(영구이동), 302(임시이동)
+      304(수정되지 않음)
+4XX : 400-잘못된 요청, 401-권한없음
+      403(금지됨-forbidden), 404-찾지못함
+SXX : 서버오류
+      500 내부서버오류
+      502 불량게이트웨이
+      503 서비스 사용불가
+
+4.2 REST와 라우팅 사용하기
+- REST : REpresentational State Transfer  
+         대표적인 상태 전달
+         주소
+- RESTful하게 서비스 개발 권장
+  주소에 의미를 명확하게 전달하도록 주소 구성을 하자!
+
+- RESTful하게 개발 권장사항 : 주소의미의 명확성 확보 -> 서버, 클라이언트영역의 분리원활
+  주소 : 명사형으로 지정
+  /user: 사용자관련 서비스요청 주소
+  /post: 게시글관련 서비스요청 주소
+CRUD(Create - Read - Update - Delete)의 표현
+HTTP 요청방법(Request Method)
+
+* HTTP Request Method : GET, POST, PUT, PATCH, DELETE, OPTIONS
+POSTman이용 테스트
+
+GET /user
+POST /user
+PATCH /user/1
+DELETE /user/1
+
+* REST 주소구조로 개발한 서버
+  RESTful하다
+  RESTful 웹서버
+
+* req : 사용자의 요청정보
+- req.Method: GET, POST, DELETE, PATCH, PUT, OPTIONS
+- req.url: 요청 주소, /, /users
+
+-res: 서버의 응답정보 객체
+
+
+  
+1. GET / 요청
+   http://localhost:8082/
+
+
+* 노드에서 HTTP서버를 만들기 위해 http모듈을 사용함
+
+
+4.2 REST와 라우팅 사용하기
+ 
+4.3 쿠키와 세션 이해하기
+cookie, session
+쿠키 사용 이유 : HTTP 특성 때문
+HTTP는 상태저장하지 않음 : 'Stateless Protocol'
+사용자의 구별이 어려움: 로그인 처리
+req
+ - req.url
+ - req.method
+ - req.headers.cookie : 요청 헤더의 쿠키 정보
+ 쿠키: 키=값
+ * 쿠키 설정하기
+
+ res.writeHead(응답코드, ('Set-cookie': '키1=값1; 키2=값2;...'))
+
+
+ * HttpOnly
+ JS(브라우저에서 실행되는)에서 쿠키 접근 불가능하게 설정
+ 브라우저에서 실행된 JS: html파일안 script태그 내의 JS
+
+ 쿠키의 단점 : 클라이언트(브라우저)에 저장--> 해킹 가능성 높아짐
+ 쿠키조작 가능
+ --> 방지책: 세션
+ 세션은 쿠키의 도움없이는 불가
+ 세션은 서버에 정보를 저장함
+ 서버에 Redis 활용 세션처리 많음
+ 
+

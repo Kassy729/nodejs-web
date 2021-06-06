@@ -504,4 +504,3 @@ alert(), confirm(), open(), close()
 
 
 
-

@@ -1,0 +1,176 @@
+6.Express 웹서버 만들기
+6.1 Express 프로젝트 만들기
+1) express generator 사용
+2) 직접구성: 권장
+
+* express 프로젝트 시작하기
+1) npm init ==> package.json
+2) express 패키지 설치
+    npm i express
+3) nodemon 명령어 설치
+   node.exe monitor라고 생각하면 됨 : 서버 수정시 서버의 재시작 자동화
+   npm i -D nodemon
+
+4) app.js 작성      //process.env.Port 없으면 3000포트
+5) npm start 서버 실행
+6) http://localhost:3000/ 접속테스트  
+
+7) 폴더 작성
+views, models, routes
+MAC모델
+
+
+6.2 자주 사용되는 미들웨어
+* Middleware : 요청과 응답 사이에 어떤 처리를 하는 것
+* 사용자 정의 미들웨어
+233 페이지
+
+* 다양한 미들웨어가 있음 
+1) 미들웨어 패키지 설치
+npm 1 morgan cookie-parser express-session
+
+2) 도구 패키지 설치 : process.env 관리 도구
+npm i dotenv
+
+3) app.js
+4) .env파일 작성
+
+6.2.1 morgan
+log처리 관련
+
+GET         /           500                   7.408 ms  - 50
+요청메서드   요청주소        응답코드(http상태코드)     응답속도 - 응답바이트
+
+6.2.2 static
+ 정적 resource들에 대한 미들웨어
+
+6.2.3 body-parser
+ 요청 본문 처리 미들웨어
+ req.body에 요청본문처리한 객체를 설정해줌
+ multer: 요청본문의 첨부파일 처리 미들웨어
+
+ req.query
+
+
+6.2.4 cookie-parser
+쿠키 처리용
+req.cookies
+
+6.2.5 express-session
+ 세션처리용
+req.session
+
+6.2.7 multer
+req.file
+
+6.3 Router 객체로 라우팅 분리하기
+app.js가 서비스가 많아짐에 따라
+길어진다 ---> router로 분리처리하도록 한다.
+
+-router는 미들웨어의 종류중 하나
+
+-app.js에서 app.get(), app.post() --> 라우터 메소드
+
+* 라우터 파일 생성
+1) routes/index.js
+2) routes/user.js
+
+* app.js에 라우터 설정
+252페이지 참고
+
+* 라우터 실행중에 next('route') 
+  :한 url에 설정된 다른 라우터를 스킵
+
+* 사용자로부터 주소로 요청 정보 전달
+  : 정규표현식 (Regular Expression)
+ - /user/:id -- /user/123
+  --> req.params.id -- 123 값을 가짐
+
+ - /user/:name
+   --> req.params.name
+ - /user/:id? key1 = val1 & key2 = val2
+   --> req.params.id : 123
+       req.query => {key1:val1, key2: val2}
+  - /user/xxx 라우터보다 앞에 작성해야 함
+
+  - 동일 url에 메소드 다른 경우 
+   router.get();
+   router.post();
+    ---> 
+    router.route('/abc')
+      .get((req,res) => {
+          res.send('GET /abc');
+      })
+      .post((req,res) => {
+          res.send('POST /abc');
+      })
+      .patch()
+      .delete()
+
+
+6.5.2 넌적스(Nunjucks) : 파이어폭스를 작성한 모질라 재단 html문법을 기반
+
+  1) 설치
+  npm i nunjucks
+
+  2) view 엔진 설정
+  app.js 
+
+  6.5.2.1 넌적스에서 변수
+  html에서 {{변수명}}
+  --> 라우터에서 전달받아 사용
+
+  html에서 자체에서 변수사용
+  {% set 변수 = '값' %}
+  {% set node = '노드제이에스야' %}
+  {% set js = '자바스크립트야' %}
+  
+  * 이스케이프(Escape) <>===> &lt; &gt;
+  {{변수명 | safe}}
+😍
+
+  6.5.2.2 반복문
+ {% 문장 %}
+ * for~in, endfor
+
+ 6.5.2.3 조건문
+ {% 문장 %}
+ * if ~ elif ~ else ~ endif
+
+
+6.5.2.4 include
+: 포함하다
+* include 파일경로
+
+6.5.2.5 extends 와 block
+extends : 확장하다.
+block : for {}:for문 블록
+
+extends : 레이아웃 파일 정의하고 
+
+{% block style %}: 
+style이름의 블록이 
+대체될 부분을 지정
+{% endblock %}
+
+{% block [블록명] %}
+
+{% endblock %}
+
+{% extends 파일경로 %}
+
+  
+
+
+
+
+app.set 'port', process.env.PORT || 3000;
+
+app.use(req,res,next) => { // next: 다음 미들웨어 실행시키기 위해 호출
+
+}
+app.get '/', (req,res,next) => {
+    //res.send("안녕 노드 익스프레스");
+    //4장 : res.writeHead(), res.write(), res.end()
+    res.sendFile.
+}

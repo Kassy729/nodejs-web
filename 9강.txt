@@ -1,0 +1,211 @@
+9. Express로 SNS만들기
+- Nodebird
+async/await에 익숙 전제
+Promise --> async/await
+
+로그인 기능
+이미지 업로드기능
+게시글 작성
+해시태그 검색
+팔로잉 기능
+
+작업환경 구축
+1) express-generator이용
+2) 직접 구축해보기
+
+* 직접구축해보기
+1) 프로젝트 폴더 만들기
+   mkdir nodebird
+2) package.json 생성 (397페이지 참고)
+3) 패키지 설치(DB-model관련)
+npm i sequelize mysql2 sequelize-cli
+4) DB관련 설정  --> config, models, migrations, seeders 폴더 생성
+npx sequelize init
+
+5) 각종 폴더 만들기(398페이지 참고)
+   mkdir views routes public passport
+6) front controller역할하는 app.js파일 생성
+7) .env(환경설정파일) 생성
+8) express와 미들웨어 및 도구 설치
+   npm i express cookie-parser express-session morgan multer nunjucks
+   npm i dotenv
+   npm i -D nodemon
+
+9) 소스코딩
+
+* 소스코딩
+1) app.js (399페이지)
+2) .env (400페이지)
+3) routes/pages.js(400페이지)
+4) views폴더에 html소스 작성(401~409페이지)
+ layout.html
+ profile.html
+ join.html
+ main.html
+ main.html
+ main.css  --> 정적파일, public 폴더에 작성
+
+5)실행
+npm start
+http://localhost:8001
+
+9.2 DB세팅
+* MySQL과 sequelize 세팅
+- MariaDB
+
+* Stack Overflow에서 참고
+* 테이블
+- users, 사용자 테이블, 로그인관련
+- post, 게시글 테이블, 게시글 정보
+- hashtags, 해시태그 테이블
+- follow모델, 팔로잉관련 중간 테이블 (users사용, N:M)
+
+* 사용가능 모델
+- User, Post, hashtag
+- Follow, postHashtag : 시퀄라이즈가 associate()를 통해 자동 생성
+  db.sequelize.models.Follow, db.sequelize.models.postHashtag 형태로 사용가능
+
+
+0) DB서버 실행
+
+1) models폴더에 user.js, post.js, hashtag.js 파일 생성
+
+2) models폴더에 index.js파일 생성: 모델 정의 등록, 실제로 관계설정 실행
+
+3) config폴더의 config.json을 환경에 맞게 설정
+"development": {
+    "username": "root",
+    "password": "ghkd0729",
+    "database": "nodejs",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  npm i mysql2  --->  mysql
+  npm i mariadb  --->  mariadb
+
+4) DB서버에 DB생성, create database nodejs;
+
+5) 테이블 생성후 Model 연결
+   app.js 수정 (p.417)
+   콘솔에서 npx sequelize db:create  ---> DB생성됨
+
+npm i -g sequelize 설치시 --> sequelize db:create
+npm i sequelize   설치시 --> npx sequelize db:create
+
+9.3 passport 모듈로 로그인 구현하기
+* local 로그인 기능 구현
+1) passport 모듈 설치 : 여권의 의미로 
+npm i passport passport-local passport-kakao bcrypt
+
+2) app.js수정 : passport 미들웨어 설정 및 연결
+419 ~ 420페이지
+
+3) passport/index.js를 구현
+420페이지
+
+- 로그인시 실행 과정
+p.422 
+1. 라우터를 통해 로그인 요청이 들어옴(incommig)
+2. 라우터에서 passport.authenticate()호출
+3. 로그인 전략을 수행
+4. 로그인 성공시에 user객체와 req.login()호출
+5. req.login()에서 passport.serializeUser()호출
+6. req.session에 user.id가 저장
+7. 로그인 완료
+
+- 로그인후 매번 요청시 실행과정
+1. 요청이 들어옴
+2. 라우터에 요청처리 의뢰가 되기전 passport.session()미들웨어가 실행됨
+   passport.deserializeUser()호출
+3. req.session객체의 저장된 user의 아이디로 DB사용자 조회
+4. 조회된 사용자 정보를 req.user에 저장
+5. 라우터에서 req.user정보를 이용할 수 있음
+
+9.3.1 로컬 로그인 구현하기
+- 로컬 전략 구현하기전에 사용자정의 미들웨어 구현
+
+4) 미들웨어 구현: routes/middlewares.js
+
+5) routes/page.js를 수정: p.423
+
+6) 로그인 과정 구현
+6-1) 회원가입, 로그인, 로그아웃 라우터 구현: routes/auth.js
+6-2) 로그인 전략 구현
+     passport/localStrategy.js
+
+9.3.2 카카오 로그인 구현하기
+- SNS 로그인 기능구현 예시
+  장점 : 검증된 인증법 사용--> 안심 - 개발자
+        이중으로 회원가입하지 않아도 됨 -- 사용자
+  구글, 페이스북, 인스타, 네이버 등등
+
+- SNS 로그인 구현 신경쓰기
+--> 따로 회원가입하지 않지만 
+    최초로그인 : 회원가입과정 + 로그인처리
+    이후로그인 : 로그인처리만
+
+7) 카카오 로그인 구현하기
+7-1) 전략 구현
+     passport/kakaoStrategy.js
+
+8) auth.js에서 kakao 로그인처리 라우터 구현
+
+9) app.js에 라우터 등록
+
+9.4 multer이용 파일 업로드와 게시글 작성하기
+245페이지 참조
+
+* 업로드 과정
+1) input태그 이미지 파일 선택
+2) 브라우저는 업로드를 실행함
+3) multer를 이용 업로드된 이미지 처리
+   DB에 이미지 정보를 저장하지 않고
+   이미지 정보(파일)는 HDD의 특정폴더에 저장
+4) 업로드된 이미지의 주소를 브라우저에 알림
+   img태그로 이미지를 화면에 표시
+
+10) multer 설치
+   npm i 
+11) 게시글관련 라우터 구현: rou
+
+12) 메인페이지 로딩시, 게시글관련 처리
+routes/pages.js
+
+9.5 프로젝트 마무리하기
+* 팔로잉기능과 해시태그검색기능 구현하기
+13) 팔로잉 기능 구현
+routes/user.js 작성
+
+14) req.user에 목록변경
+팔로워수, 팔로잉 수 등 정보를 추가하기 위해
+passport/index.js deserializeUser() 수정
+441페이지
+캐싱(caching)
+웹캐싱
+deserializeUser()에 정보
+user의 정보
+ - 로그인한 사람의 정보
+ - 팔로워, 팔로잉 정보
+   (팔로워 수, 팔로잉 수, 팔로워리스트, 팔로잉 리스트)
+
+Redis를 활용하여 캐싱처리
+
+
+
+PWA --> 하이브리드 (ionic, corvoda(코르도바))
+
+Flutter--Dart언어
+
+일렉트론
+
+IoT
+
+
+
+
+
+
+* 카카오 로그인 기능 구현
+
+
+
