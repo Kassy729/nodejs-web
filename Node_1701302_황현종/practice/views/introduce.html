@@ -1,0 +1,311 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <title>Node 너무 좋아요</title>
+    <style>
+        *{
+            margin: 0; padding: 0;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        a{text-decoration: none;}
+        li{list-style: none;}
+    </style>
+
+    <style>
+        .pull-left{float: left;}
+        .pull-right{float: right;}
+    </style>
+
+    <style>
+        body{
+            width: 960px; margin: 0 auto;
+            background: #e6e6e6;
+        }
+    </style>
+
+    <style>
+        #page-wrapper{
+            background-color: white;
+            margin: 40px 0; padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3); 
+        }       
+    </style>
+
+    <style>
+        #main-header{padding: 40px 50px; background-color: salmon;}
+        .master-title{
+            font-size: 30px;
+            color:slateblue;
+            
+        }
+        .master-description{
+            font-size: 15px; font-weight: 500;
+            color: #383838;
+        }
+    </style>
+    <style>
+        #main-navigation{
+            border-top: 1px solid #c8c8c8;
+            border-bottom: 1px solid #c8c8c8;
+            margin-bottom: 20px;
+            height: 40px;
+            background-color:yellowgreen;
+            }
+
+            .outer-menu-item{
+                float: left;
+                position: relative;
+            }
+
+            .outer-menu-item:hover{
+                background-color: black;
+                color: white;
+            }
+
+            .menu-title{
+                display: block;
+                height: 30px; line-height: 30px;
+                text-align: center;
+                padding: 5px 20px;
+            }
+            
+            .inner-menu{
+                display: none;
+                position: absolute;
+                top: 40px; left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 2px 6px rgba(5,5,5,0.9);
+                z-index: 1000;
+                text-align: center;
+            }
+
+            .inner-menu-item > a{
+                display: block;
+                padding: 5px 10px;
+                color: black;
+            }
+            .inner-menu-item > a:hover{
+                background-color: black;
+                color: white;
+            }
+    </style>
+
+    <style>
+        .search-bar{
+            height: 26px;
+            padding: 7px;
+        }
+
+        .input-search{
+            display: block;
+            float: left;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+            border-radius: 15px 0 0 15px;
+            width: 120px; height: 24px;
+            padding: 0 0 0 10px;
+            font-size: 12px;
+            color: #555555;
+        }
+        .input-search:focus{
+            border-color: rgba(82, 168, 236, 0.8);
+            outline: 0;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+        }
+
+        .input-search-submit{
+            display: block;
+            float: left;
+            width: 50px; height: 26px;
+            border-radius: 0 15px 15px 0;
+            border: 1px solid #cccccc;
+            margin-left: -1px;
+            vertical-align: top;
+            display: inline-block;
+        }    
+    </style>
+
+    <style>
+        #content{overflow: hidden;}
+        #main-section{
+            float: left;
+            width: 710px;
+        }
+        #main-aside{
+            float: right;
+            width: 150px;
+            background-color:orchid;
+        }
+    </style>
+
+    <style>
+        article{
+            padding: 0 10px 20px 10px;
+            border-bottom: 1px solid #c8c8c8;
+        }
+
+        .article-header{padding: 20px 0;}
+        .article-title{
+            font-size: 25px;
+            font-weight: 500;
+            padding-bottom: 10px;
+            font-family: 'East Sea Dokdo',cursive;
+        }
+        .article-date{font-size: 13px; }
+        .article-body{
+            font-size: 14px;
+        }
+    </style>
+
+    <style>
+        .aside-list{padding: 10px 0 30px 0;}
+        .aside-list > h3{
+            font-size: 15px;
+            font-weight: 600;
+            
+        }
+        .aside-list li a{
+            margin-left: 8px;
+        }
+        .aside-list li a{
+            margin-left: 8px;
+            font-size: 13px;
+            color: #6c6c6c;
+        }
+    </style>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.outer-menu-item').hover(function () {
+            $(this).find('.inner-menu').show();
+        }, function () {
+            $(this).find('.inner-menu').hide();
+        });
+    });
+</script>
+
+</head>
+<body>
+    <div id="page-wrapper">
+        <header id="main-header">
+            <hgroup>
+                <h1 class="master-title">황현종</h1>
+                <h2 class="master-description">1701302_컴퓨터정보계열_WDJ</h2>
+            </hgroup>
+        </header>
+
+        <nav id="main-navigation">
+            <div class="pull-left">
+                <ul class="outer-menu">
+                    <li class="outer-menu-item">
+                        <span class="menu-title">사는곳</span>
+                        <ul class="inner-menu">
+                            <li class="inner-menu-item"><a href="#">포항</a></li>
+                            <li class="inner-menu-item"><a href="#">우방신천지106동</a></li>
+                        </ul>
+                    </li>
+                    <li class="outer-menu-item">
+                        <span class="menu-title">출신학교</span>
+                        <ul class="inner-menu">
+                            <li class="inner-menu-item"><a href="#">몬테소리어린이집</a></li>
+                            <li class="inner-menu-item"><a href="#">포항남부초등학교</a></li>
+                            <li class="inner-menu-item"><a href="#">영신중학교</a></li>
+                        </ul>
+                    </li>
+                    <li class="outer-menu-item">
+                        <span class="menu-title">경력</span>
+                        <ul class="inner-menu">
+                            <li class="inner-menu-item"><a href="#">태권도3단</a></li>
+                            <li class="inner-menu-item"><a href="#">JLPT N1급</a></li>
+                            <li class="inner-menu-item"><a href="#">운전면허증2종</a></li>
+                            <li class="inner-menu-item"><a href="#">대한민국 공군 병장전역</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="pull-right">
+                <div class="search-bar">
+                    <form>
+                        <input type="text" class="input-search" />
+                        <input type="submit" class="input-search-submit" value="검색" />
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <div id="content">
+            <section id="main-section">
+                <article>
+                    <div class="article-header">
+                        <h1 class="article-title">우방신천지아파트</h1>
+                        <p class="article-date">2020-12-03</p>
+                    </div>
+                    <div class="article-body">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAxOTEyMzBfMzUg%2FMDAxNTc3Njk5MzE3NDUy.bcJNyPm8UmXOeeuW-Ij84o-oy08rJ4xrJTsN3Bb8WJ4g.7Jgk7RxfrlOTqJJO_lz2SP8bqf6UzwZAd4bD2eEk144g.PNG.mika0928%2F%25B5%25CE1.PNG&type=sc960_832" width="200" height="150" />
+                        <br />
+                        <br />
+                        <p>경상북도 포항시 북구 두호동 753</p>
+                        <br />
+                        <p>경상북도 포항시 북구 새천년대로1020번길 12</p>
+                    </div>
+                    <div>
+                        <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
+                          <div class="input-group">
+                            <textarea id="twit" name="content" maxlength="140"></textarea>
+                          </div>
+                          <div class="img-preview">
+                            <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
+                            <input id="img-url" type="hidden" name="url">
+                          </div>
+                          <div>
+                            <label id="img-label" for="img">사진 변경</label>
+                            <input id="img" type="file" accept="image/*">
+                            <button id="twit-btn" type="submit" class="btn">수정</button>
+                          </div>
+                        </form>
+                      </div>
+
+                </article>
+                <!-- <article>
+                    <div class="article-header">
+                        <h1 class="article-title">호미곶</h1>
+                        <p class="article-date">포항의 자랑</p>
+                    </div>
+                    <div class="article-body">
+                        <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150908_52%2Fkjh6994_1441696669655grrVe_JPEG%2FNaverBlog_20150908_161749_77.jpg&type=sc960_832" width="200" height="150"/>
+                        <br />
+                        <br />
+                        <p>호미곶은 육지가 뾰족하게 바다를 향해 돌출1)되어 있는 것이 특징이에요. 겨울에는 따뜻하고 여름에는 서늘한 기후이고, 수산업이 발달했어요. 오징어, 대게, 꽁치가 특히 많이 잡히고 동해안 어장의 60퍼센트 이상이 호미곶 부근에 몰려 있어 황금 어장으로 불린답니다. 그 이유는 물고기의 먹이가 되는 플랑크톤이 풍부하고, 난류와 한류에 사는 물고기가 동시에 잡히기 때문이에요.
+                            </p>
+                        <br />
+                        <p>꼭 한번 놀러가세요~</p>
+                    </div>
+                    <div>
+                        <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
+                          <div class="input-group">
+                            <textarea id="twit" name="content" maxlength="140"></textarea>
+                          </div>
+                          <div class="img-preview">
+                            <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
+                            <input id="img-url" type="hidden" name="url">
+                          </div>
+                          <div>
+                            <label id="img-label" for="img">사진 변경</label>
+                            <input id="img" type="file" accept="image/*">
+                            <button id="twit-btn" type="submit" class="btn">수정</button>
+                          </div>
+                        </form>
+                      </div>
+                </article>
+            </section>
+            </aside> --> 
+        </div>
+        <footer id="main-footer">
+            <a href="#">Created By 황현종</a>
+        </footer>
+    </div>
+{% endblock %}

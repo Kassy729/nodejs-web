@@ -1,0 +1,17 @@
+{
+  "name": "learn-express",
+  "version": "0.0.1",
+  "description": "\"기말고사 프로젝트\"",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "HHJ",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0"
+  },
+  "devDependencies": {}
+}
