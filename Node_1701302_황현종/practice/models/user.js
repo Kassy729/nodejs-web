@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 
 module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
-    return super.init({
+    return super.init({  //테이블에 대한 설정
       email: {
         type: Sequelize.STRING(40),
         allowNull: true,  //null값 허용
@@ -53,3 +53,8 @@ module.exports = class User extends Sequelize.Model {
     });
   }
 };
+
+
+
+
+

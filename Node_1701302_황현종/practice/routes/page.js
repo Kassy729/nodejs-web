@@ -1,6 +1,7 @@
 const express = require('express');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const { Post, User, Hashtag } = require('../models');
+const { route } = require('./post');
 
 const router = express.Router();
 
@@ -12,24 +13,20 @@ router.use((req, res, next) => {
   next();
 });
 
+router.get('/introduce', (req, res) => {
+  res.render('introduce', { title: '자기 소개'});
+});
+
+router.get('/local', (req, res) => {
+  res.render('local', { title : '현지학기제'});
+});
+
 router.get('/profile', isLoggedIn, (req, res) => {
   res.render('profile', { title: '내 정보 - NodeBird' });
 });
 
 router.get('/join', isNotLoggedIn, (req, res) => {
   res.render('join', { title: '회원가입 - NodeBird' });
-});
-
-router.get('/introduce', (req, res) => {
-  res.render('introduce', { title: '자기소개'});
-});
-
-router.get('/local', (req, res) => {
-  res.render('local', { title: '현지학기프로그램 소개'});
-});
-
-router.get('/Q&A', (req, res) => {
-  res.render('Q&A', { title : 'Q&A'});
 });
 
 
