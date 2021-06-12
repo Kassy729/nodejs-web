@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="timeline">
+        <div class="introduce">현지학기프로그램 소개</div>
+            <h1>현지학기제프로그램</h1>
+            <h2>영진전문대학 해외진출</h2>
+            
+            <div class="twit">
+                <div class="twit-content">{{introduce.content}}</div>
+                {% if introduce.img %}
+                 <div class="twit-img"><img src="{{introduce.img}}" alt="섬네일"></div>
+                {% endif %}
+                </div>
+                <div>
+                  <form id="twit-form" action="/post" method="post" enctype="multipart/form-data">
+                    <div class="input-group">
+                      <textarea id="twit" name="content" maxlength="140"></textarea>
+                    </div>
+                    <div class="img-preview">
+                      <img id="img-preview" src="" style="display: none;" width="250" alt="미리보기">
+                      <input id="img-url" type="hidden" name="url">
+                    </div>
+                    <div>
+                      <label id="img-label" for="img">사진 변경</label>
+                      <input id="img" type="file" accept="image/*">
+                      <button id="twit-btn" type="submit" class="btn">수정</button>
+                    </div>
+                  </form>
+              </div>
+
+            
+            <a id="Q&A" href="/Q&A" class="btn">Q&A</a>
+        </div>
+{% endblock %}
